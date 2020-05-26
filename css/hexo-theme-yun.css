@@ -487,6 +487,10 @@ body::before {
   margin: 5px 5px 0 5px;
   color: #0078E7;
 }
+#busuanzi_value_site_uv,
+#busuanzi_value_site_pv {
+  margin-left: 0.2rem;
+}
 .moe-text {
   margin: 0 5px;
 }
@@ -982,6 +986,52 @@ body::before {
   top: 0;
   z-index: 11;
   pointer-events: none;
+}
+#trianglify {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  opacity: 0.5;
+  animation: triFadeIn 2s;
+}
+@-moz-keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+@-o-keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+@keyframes triFadeIn {
+  from {
+    opacity: 0;
+    filter: grayscale(1);
+  }
+  to {
+    opacity: 0.5;
+  }
 }
 .post-card {
   position: relative;
