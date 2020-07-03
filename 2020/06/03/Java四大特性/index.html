@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="林沐&amp;憨憨"><meta name="copyright" content="林沐&amp;憨憨"><meta name="generator" content="Hexo 4.2.1"><meta name="theme" content="hexo-theme-yun"><meta name="description" content="什么是面向过程编程呢?就是一流程为单位，注重最后的结果。比如小明要从郑州去北京，他第一步就是要先买火车票，然后去火车站乘车，坐火车到北京。这就是面向过程编程，必须每一步都做到，才会有最后的结果。 这样一来面向过程编程的缺点就很明显了：1、不利于程序的维护  2、功能之间有很强的关联性，就是说你每一次改动一步，可能就会涉及到好几步的更改。 那么什么又是面向对象编程呢？就是把一个事物看做一个整体，从事">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java四大特性">
+<meta property="og:url" content="https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="林沐&amp;憨憨的学习日记">
+<meta property="og:description" content="什么是面向过程编程呢?就是一流程为单位，注重最后的结果。比如小明要从郑州去北京，他第一步就是要先买火车票，然后去火车站乘车，坐火车到北京。这就是面向过程编程，必须每一步都做到，才会有最后的结果。 这样一来面向过程编程的缺点就很明显了：1、不利于程序的维护  2、功能之间有很强的关联性，就是说你每一次改动一步，可能就会涉及到好几步的更改。 那么什么又是面向对象编程呢？就是把一个事物看做一个整体，从事">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-03T01:25:55.000Z">
+<meta property="article:modified_time" content="2020-07-03T01:35:15.097Z">
+<meta property="article:author" content="林沐&amp;憨憨">
+<meta property="article:tag" content="Java基础">
+<meta name="twitter:card" content="summary"><title>Java四大特性 | 林沐&amp;憨憨的学习日记</title><link rel="shortcut icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"root":"/","title":"林沐&憨憨的窝","version":"0.7.2","anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn?d=i&d=d","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;family=Source+Code+Pro&amp;display=swap" media="none" onload="this.media='all'"><script src="//at.alicdn.com/t/font_1140697_4i778vmn3jg.js" async></script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://cdn.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js" defer></script><script src="/js/pjax.js" defer></script><div class="js-Pjax"></div><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><canvas id="trianglify"></canvas><script defer src="https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  const pattern = Trianglify({
+    width: 800,
+    height: 600,
+    cell_size: 75,
+    palette: ["YlGnBu", "GnBu", "Purples", "Blues"],
+  });
+  document.body.appendChild(pattern.canvas(trianglify));
+});</script><div class="container"><a class="sidebar-toggle sidebar-toggle-fixed hty-icon-button"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><aside class="sidebar"><script defer src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button sidebar-nav-active" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel sidebar-panel-active" id="site-overview-wrap"><div class="site-info mickey-mouse"><a class="site-author-avatar" href="/about/" title="林沐&amp;憨憨"><img width="96" loading="lazy" src="https://i.loli.net/2020/05/25/17HkfG5uO6iKUvd.png" alt="林沐&amp;憨憨"></a><div class="site-author-name"><a href="/about/">林沐&amp;憨憨</a></div><a class="site-name" href="/about/site.html">林沐&amp;憨憨的学习日记</a><sub class="site-subtitle"></sub><div class="site-desciption">热爱学习，享受生活</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item site-state-posts"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">13</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">3</span></a></div><a class="site-state-item hty-icon-button" href="https://yun.yunyoujun.cn" target="_blank" rel="noopener" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/zjmjava" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:2450961739@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=533759917" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/121457571" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="https://sunxinan12138.github.io/" target="_blank" rel="noopener" title="熙楠的博客" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-men-line"></use></svg></a></div></div><div class="sidebar-panel" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content">此文章未包含目录</div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="林沐&amp;憨憨"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="林沐&amp;憨憨的学习日记"></span><header class="post-header"><h1 class="post-title" itemprop="name headline" style="color: undefined">Java四大特性</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-06-03 09:25:55" itemprop="dateCreated datePublished" datetime="2020-06-03T09:25:55+08:00">2020-06-03</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2020-07-03 09:35:15" itemprop="dateModified" datetime="2020-07-03T09:35:15+08:00">2020-07-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">2.4k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">5 分钟</span></span></span><span class="post-busuanzi"><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读次数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-eye-line"></use></svg> <span id="busuanzi_value_page_pv"></span></span></span><div class="post-classify"><span class="post-tag"><a class="tag" href="/tags/Java%E5%9F%BA%E7%A1%80/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Java基础</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content post-markdown"><p>什么是面向过程编程呢?就是一流程为单位，注重最后的结果。比如小明要从郑州去北京，他第一步就是要先买火车票，然后去火车站乘车，坐火车到北京。这就是面向过程编程，必须每一步都做到，才会有最后的结果。</p>
+<p>这样一来面向过程编程的缺点就很明显了：1、不利于程序的维护  2、功能之间有很强的关联性，就是说你每一次改动一步，可能就会涉及到好几步的更改。</p>
+<p>那么什么又是面向对象编程呢？就是把一个事物看做一个整体，从事物的属性和功能两方面进行描述</p>
+<p>面向对象编程的特点就是：</p>
+<p>1、面向对象的编程思想更贴近人的正常思维模式</p>
+<p>2、面向对象的编程来源于生活服务于生活</p>
+<p>3、面向对象的编程思想中肯定会用到面向过程的思想</p>
+<p>4、面向对象的特征：<strong>抽象、封装、继承、多态</strong></p>
+<p>这就要来了解下什么是对象了。</p>
+<p>任何一个具体的事物都是一个对象，在《java编程思想》中讲到：万事万物皆对象</p>
+<p>任何一个对象都是唯一的，即使两个相近或者相似的事物都是两个不同的对象，就像世界上找不到两片相同的树叶一样，任何一个对象一旦创建就会唯一的存在。而且对象也不一定是一个切实存在的实物，任何一项法规、政策、虚拟物品等都是一个对象。</p>
+<p><strong>抽象</strong>　　　　　　</p>
+<p>就是对同一个事的共有的属性（特征）和方法（功能/行为）进行抽取、归纳、总结。如：汽车都有轮子、发动机等这些就是汽车的属性，汽车能跑、能载人载物等这些就是汽车的功能。这样就可以把汽车的这些功能与属性抽取出来写在一个类中，供汽车这一类事物使用。</p>
+<p><strong>封装</strong>　　</p>
+<p>在抽象中将属性与方法写在一个类中就是封装，而封装就是为了保证抽象出来的特征和方法的安全性，封装就是包装的过程，注意封装不是绝对的封装，如果其他程序要获取已经封装好的数据，就要通过程序指定的接口或方法才能获取。</p>
+<p><strong>继承</strong></p>
+<p>​    特点：继承要有一定的层次结构，还要具备一定的可传递性</p>
+<p>　　　　子类继承父类的属性和方法，但是私有属性和构造方法除外</p>
+<p>　　　　子类除了拥有从父类继承过来的属性和方法外，子类还可以拥有属于自己的属性和方法</p>
+<p>　　　　在java中只支持单一继承（也就说一个子类只能有一个父类，但一个父类可以有多个子类）</p>
+<p>　　　　判断两个类的继承关系是否成立，可以通过“is-a”（是一个）开判断</p>
+<p><strong>子类不能继承父类的构造方法：</strong>父类的构造方法创建的是父类的对象，以为继承要有一定的层次结构，而且要具备一定的额可传递性，如果子类继成父类的构造方法就违反了这一条，所以子类不能继承父类的构造方法。</p>
+<p><strong>如何实现继承</strong></p>
+<p> 在java中通过extends关键字来实现继承，语法</p>
+<p>【访问修饰符】 class  子类  extends 父类{  }</p>
+<p><strong>继承的作用</strong></p>
+<p>提高代码的重用性</p>
+<p>一个源文件中可以包含多个类，但只能有一个类带public，而且带public访问修饰符的类的类名要和源文件的文件名相同，main方法也要写在带public的类中。</p>
+<p>当创建子类对象时，那么一定会先执行父类的构造方法创建父类对象，然后在调用子类的构造方法创建子类的对象。而且在创建子类的对象时无论是调用有参数还是无参数的构造方法，JVM都会默认的代用父类的无参数的构造方法创建父类的对象。</p>
+<p><strong>多态</strong></p>
+<p>多态就是指同一种事物在不同的情况下的多种表现形式</p>
+<p>多态的表现形式有：方法重写，方法重载，接口和接口的继承，类和类的继承</p>
+<p><strong>方法的重载</strong>：在同一个类中，有多个方法名相同，但参数列表不同的方法，这就是方法的重载，参数列表的不同包括：参数个数，类型，顺序的不同。普通方法和构造方法都可重载，方法重载会根据传递的参数来决定调用哪个方法，<strong>返回值不同，其他都相同的情况是构不成方法的重载</strong></p>
+<p><strong>方法的重写：</strong>发生在子类继承父类的关系中，父类中的方法被子类继承，方法名，返回值类型，参数完全一样，但是方法体不一样那么说明父类中的该方法被子类重写了。</p>
+<p>目的：当父类中方法，无法满足子类的需求时，那么子类可以对父类的方法进行扩展</p>
+<p>注意：方法重写子类的访问修饰符的范围不能缩小</p>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>林沐&憨憨</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7/" title="Java四大特性">https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2020/06/03/JDBC%E7%BB%93%E6%9E%9C%E9%9B%86%E6%BB%9A%E5%8A%A8%E5%92%8C%E5%85%83%E6%95%B0%E6%8D%AE/" rel="prev" title="JDBC结果集滚动和元数据"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">JDBC结果集滚动和元数据</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2020/05/31/JDBC%E5%9F%BA%E7%A1%80%E5%8E%9F%E5%8E%9F%E7%90%86-2/" rel="next" title="JDBC基础原原理_2"><span class="post-nav-text">JDBC基础原原理_2</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>点击按钮跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" href="https://github.com/zjmjava/zjmjava.github.io/issues?q=is:issue+Java四大特性">GitHub Issues</a></div><div class="comment-container" id="valine-container"></div><script src="https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script><script>function initValine() {
+  setTimeout(() => {
+    new Valine({
+      el: "#valine-container",
+      appId: 'x28P8y6m6ntuC1zl6oTMLC8j-gzGzoHsz',
+      appKey: 'TLDnd7nD2JaMXCmGyTM4NeRX',
+      placeholder: '欢迎大佬们留言交流哦，孩子菜鸡，不对的地方多多指教（么得邮件提醒，评论随缘）',
+      path: window.location.pathname,
+      avatar: 'robohash',
+      meta: ["nick","mail","link"],
+      pageSize: 10,
+      lang: 'zh-cn',
+      visitor: false,
+      highlight: true,
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: null,
+      enableQQ: true,
+      requiredFields: [],
+    });
+  }, 1000);
+}
+initValine();</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2020 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 林沐&amp;憨憨</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v4.2.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v0.7.2</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  window.setTimeout(blog_live_time, 1000);
+  const start = new Date('2020-05-24T13:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div><div id="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv" title="总访客量"><span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-user-line"></use></svg></span><span id="busuanzi_value_site_uv"></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv" title="总访问量"><span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-eye-line"></use></svg></span><span id="busuanzi_value_site_pv"></span></span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><div class="aplayer no-destroy" id="aplayer" data-id="308168565" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay data-theme="#0078E7" data-loop="all" data-order="random" data-preload="auto" data-volume="0.7" data-mutex data-lrctype="0" data-listfolded data-listmaxheight="340px" data-storagename="metingjs"></div></div><script defer src="/js/utils.js"></script><script defer src="/js/hexo-theme-yun.js"></script></body></html>
