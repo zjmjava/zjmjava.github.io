@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="林沐&amp;憨憨"><meta name="copyright" content="林沐&amp;憨憨"><meta name="generator" content="Hexo 4.2.1"><meta name="theme" content="hexo-theme-yun"><meta name="description" content="Java中final、finally、finalize的区别与用法1.简单区别：final用于声明属性，方法和类，分别表示属性不可交变，方法不可覆盖，类不可继承。finally是异常处理语句结构的一部分，表示总是执行。finalize是Object类的一个方法，在垃圾收集器执行的时候会调用被回收对象的此方法，供垃圾收集时的其他资源回收，例如关闭文件等。 2.中等区别：（暂时只能了解到这里） 虽然这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中final、finally、finalize的区别与用法">
+<meta property="og:url" content="https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E4%B8%ADfinal%E3%80%81finally%E3%80%81finalize%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E7%94%A8%E6%B3%95/index.html">
+<meta property="og:site_name" content="林沐&amp;憨憨的学习日记">
+<meta property="og:description" content="Java中final、finally、finalize的区别与用法1.简单区别：final用于声明属性，方法和类，分别表示属性不可交变，方法不可覆盖，类不可继承。finally是异常处理语句结构的一部分，表示总是执行。finalize是Object类的一个方法，在垃圾收集器执行的时候会调用被回收对象的此方法，供垃圾收集时的其他资源回收，例如关闭文件等。 2.中等区别：（暂时只能了解到这里） 虽然这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="article:published_time" content="2020-06-03T08:59:32.000Z">
+<meta property="article:modified_time" content="2020-07-03T09:08:51.180Z">
+<meta property="article:author" content="林沐&amp;憨憨">
+<meta property="article:tag" content="Java基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://common.cnblogs.com/images/copycode.gif"><title>Java中final、finally、finalize的区别与用法 | 林沐&amp;憨憨的学习日记</title><link rel="shortcut icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"root":"/","title":"林沐&憨憨的窝","version":"0.7.2","anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn?d=i&d=d","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;family=Source+Code+Pro&amp;display=swap" media="none" onload="this.media='all'"><script src="//at.alicdn.com/t/font_1140697_4i778vmn3jg.js" async></script><link class="aplayer-style-marker" rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.css"><script class="aplayer-script-marker" src="https://cdn.jsdelivr.net/npm/aplayer@latest/dist/APlayer.min.js" defer></script><script class="meting-script-marker" src="https://cdn.jsdelivr.net/npm/meting@1/dist/Meting.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js" defer></script><script src="/js/pjax.js" defer></script><div class="js-Pjax"></div><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><canvas id="trianglify"></canvas><script defer src="https://cdn.jsdelivr.net/npm/trianglify@latest/dist/trianglify.min.js"></script><script>document.addEventListener("DOMContentLoaded", () => {
+  const pattern = Trianglify({
+    width: 800,
+    height: 600,
+    cell_size: 75,
+    palette: ["YlGnBu", "GnBu", "Purples", "Blues"],
+  });
+  document.body.appendChild(pattern.canvas(trianglify));
+});</script><div class="container"><a class="sidebar-toggle sidebar-toggle-fixed hty-icon-button"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><aside class="sidebar"><script defer src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info mickey-mouse"><a class="site-author-avatar" href="/about/" title="林沐&amp;憨憨"><img width="96" loading="lazy" src="https://i.loli.net/2020/05/25/17HkfG5uO6iKUvd.png" alt="林沐&amp;憨憨"></a><div class="site-author-name"><a href="/about/">林沐&amp;憨憨</a></div><a class="site-name" href="/about/site.html">林沐&amp;憨憨的学习日记</a><sub class="site-subtitle"></sub><div class="site-desciption">热爱学习，享受生活</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item site-state-posts"><a href="/archives/" title="归档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">16</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/" title="标签"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">4</span></a></div><a class="site-state-item hty-icon-button" href="https://yun.yunyoujun.cn" target="_blank" rel="noopener" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/zjmjava" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:2450961739@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=533759917" title="网易云音乐" target="_blank" style="color:#C20C0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/121457571" title="哔哩哔哩" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="https://sunxinan12138.github.io/" target="_blank" rel="noopener" title="熙楠的博客" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-men-line"></use></svg></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中final、finally、finalize的区别与用法"><span class="toc-number">1.</span> <span class="toc-text">Java中final、finally、finalize的区别与用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-简单区别："><span class="toc-number">1.1.</span> <span class="toc-text">1.简单区别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-中等区别："><span class="toc-number">1.2.</span> <span class="toc-text">2.中等区别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-详细区别："><span class="toc-number">1.3.</span> <span class="toc-text">3.详细区别：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义变量，包括静态的和非静态的。定义方法的参数"><span class="toc-number">1.3.1.</span> <span class="toc-text">定义变量，包括静态的和非静态的。定义方法的参数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#第一种情况："><span class="toc-number">1.3.1.1.</span> <span class="toc-text">第一种情况：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#第二种情况："><span class="toc-number">1.3.1.2.</span> <span class="toc-text">第二种情况：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#定义类"><span class="toc-number">1.3.2.</span> <span class="toc-text">定义类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#finally语句"><span class="toc-number">1.3.3.</span> <span class="toc-text">finally语句</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E4%B8%ADfinal%E3%80%81finally%E3%80%81finalize%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E7%94%A8%E6%B3%95/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="林沐&amp;憨憨"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="林沐&amp;憨憨的学习日记"></span><header class="post-header"><h1 class="post-title" itemprop="name headline" style="color: undefined">Java中final、finally、finalize的区别与用法</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="创建时间：2020-06-03 16:59:32" itemprop="dateCreated datePublished" datetime="2020-06-03T16:59:32+08:00">2020-06-03</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-2-line"></use></svg></span> <time title="修改时间：2020-07-03 17:08:51" itemprop="dateModified" datetime="2020-07-03T17:08:51+08:00">2020-07-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-file-word-line"></use></svg></span> <span title="本文字数">30k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-timer-line"></use></svg></span> <span title="阅读时长">1:01</span></span></span><span class="post-busuanzi"><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读次数"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-eye-line"></use></svg> <span id="busuanzi_value_page_pv"></span></span></span><div class="post-classify"><span class="post-tag"><a class="tag" href="/tags/Java%E5%9F%BA%E7%A1%80/"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">Java基础</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content post-markdown"><h2 id="Java中final、finally、finalize的区别与用法"><a href="#Java中final、finally、finalize的区别与用法" class="headerlink" title="Java中final、finally、finalize的区别与用法"></a>Java中final、finally、finalize的区别与用法</h2><h3 id="1-简单区别："><a href="#1-简单区别：" class="headerlink" title="1.简单区别："></a><strong>1.简单区别：</strong></h3><p>final用于声明属性，方法和类，分别表示属性不可交变，方法不可覆盖，类不可继承。<br>finally是异常处理语句结构的一部分，表示总是执行。<br>finalize是Object类的一个方法，在垃圾收集器执行的时候会调用被回收对象的此方法，供垃圾收集时的其他资源回收，例如关闭文件等。</p>
+<h3 id="2-中等区别："><a href="#2-中等区别：" class="headerlink" title="2.中等区别："></a><strong>2.中等区别：</strong></h3><p>（暂时只能了解到这里）</p>
+<p>虽然这个单词在Java中都存在，但是并没太多关联：<br>final：java中的关键字，修饰符。<br>A).如果一个类被声明为final，就意味着它不能再派生出新的子类，不能作为父类被继承。因此，一个类不能同时被声明为abstract抽象类的和final的类。<br>B).如果将变量或者方法声明为final，可以保证它们在使用中不被改变.<br>　　1)被声明为final的变量必须在声明时给定初值，而在以后的引用中只能读取，不可修改。<br>　　2)被声明final的方法只能使用，不能重载。<br>finally：java的一种异常处理机制。<br>　　finally是对Java异常处理模型的最佳补充。finally结构使代码总会执行，而不管无异常发生。使用finally可以维护对象的内部状态，并可以清理非内存资源。特别是在关闭数据库连接这方面，如果程序员把数据库连接的close()方法放到finally中，就会大大降低程序出错的几率。<br>finalize：Java中的一个方法名。<br>Java技术使用finalize()方法在垃圾收集器将对象从内存中清除出去前，做必要的清理工作。这个方法是由垃圾收集器在确定这个对象没被引用时对这个对象调用的。它是在Object类中定义的，因此所的类都继承了它。子类覆盖finalize()方法以整理系统资源或者执行其他清理工作。finalize()方法是在垃圾收集器删除对象之前对这个对象调用的。</p>
+<h3 id="3-详细区别："><a href="#3-详细区别：" class="headerlink" title="3.详细区别："></a><strong>3.详细区别：</strong></h3><p>这是一道再经典不过的面试题了，我们在各个公司的面试题中几乎都能看到它的身影。final、finally和finalize虽然长得像孪生兄弟一样，但是它们的含义和用法却是大相径庭。<br>final关键字我们首先来说说final。它可以用于以下四个地方:<br>1).定义变量，包括静态的和非静态的。<br>2).定义方法的参数。<br>3).定义方法。<br>4).定义类。</p>
+<h4 id="定义变量，包括静态的和非静态的。定义方法的参数"><a href="#定义变量，包括静态的和非静态的。定义方法的参数" class="headerlink" title="定义变量，包括静态的和非静态的。定义方法的参数"></a><strong>定义变量</strong>，包括静态的和非静态的。定义方法的参数</h4><h5 id="第一种情况："><a href="#第一种情况：" class="headerlink" title="第一种情况："></a>第一种情况：</h5><p> 如果final修饰的是一个基本类型，就表示这个变量被赋予的值是不可变的，即它是个常量；<br> 如果final修饰的是一个对象，就表示这个变量被赋予的引用是不可变的<br>这里需要提醒大家注意的是，不可改变的只是这个变量所保存的引用，并不是这个引用所指向的对象。</p>
+<h5 id="第二种情况："><a href="#第二种情况：" class="headerlink" title="第二种情况："></a>第二种情况：</h5><p>final的含义与第一种情况相同。<br>实际上对于前两种情况，一种更贴切的表述final的含义的描述，那就是，如果一个变量或方法参数被final修饰，就表示它只能被赋值一次，但是JAVA虚拟机为变量设定的默认值不记作一次赋值。被final修饰的变量必须被初始化。初始化的方式以下几种：<br>1.在定义的时候初始化。<br>2.final变量可以在初始化块中初始化，不可以在静态初始化块中初始化。<br>3.静态final变量可以在定义时初始化，也可以在静态初始化块中初始化，不可以在初始化块中初始化。<br>4.final变量还可以在类的构造器中初始化，但是静态final变量不可以。<br>通过下面的代码可以验证以上的观点：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码" loading="lazy"></a></p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FinalTest</span><span class="token punctuation">{</span>
+　　<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">int</span> A<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//在定义时初始化</span>
+　　<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">int</span> B<span class="token punctuation">;</span><span class="token punctuation">{</span>B<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">;</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">//在初始化块中初始化</span>
+
+　　<span class="token comment" spellcheck="true">//非静态final变量不能在静态初始化块中初始化    </span>
+　　<span class="token comment" spellcheck="true">//public final int C;static{//C=30; }</span>
+
+　　<span class="token comment" spellcheck="true">//静态常量，在定义时初始化</span>
+　　<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> STATIC_D<span class="token operator">=</span><span class="token number">40</span><span class="token punctuation">;</span>
+
+   <span class="token comment" spellcheck="true">//静态常量，在静态初始化块中初始化</span>
+　　<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> STATIC_E<span class="token punctuation">;</span><span class="token keyword">static</span><span class="token punctuation">{</span>STATIC_E <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">;</span><span class="token punctuation">}</span>
+
+　　<span class="token comment" spellcheck="true">//静态变量不能在初始化块中初始化    </span>
+　　<span class="token comment" spellcheck="true">//public static final int  STATIC_F;{STATIC_F=60;}</span>
+
+　　<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">int</span> G<span class="token punctuation">;</span>
+
+　　<span class="token comment" spellcheck="true">//静态final变量不可以在构造器中初始化    </span>
+　　<span class="token comment" spellcheck="true">//public static final int STATIC_H;</span>
+
+　　<span class="token comment" spellcheck="true">//在构造器中初始化         </span>
+　　<span class="token keyword">public</span> <span class="token function">finalTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+　　　　G<span class="token operator">=</span><span class="token number">70</span><span class="token punctuation">;</span>
+　　　　<span class="token comment" spellcheck="true">//静态final变量不可以在构造器中初始化</span>
+　　　　<span class="token comment" spellcheck="true">//STATIC_H=80;</span>
+
+　　　　<span class="token comment" spellcheck="true">//给final的变量第二次赋值时，编译会报错</span>
+　　　　<span class="token comment" spellcheck="true">//A=99;</span>
+　　　　<span class="token comment" spellcheck="true">//STATIC_D=99;</span>
+　　<span class="token punctuation">}</span>
+
+　　<span class="token comment" spellcheck="true">//final变量未被初始化，编译时就会报错</span>
+　　<span class="token comment" spellcheck="true">//public final int L;</span>
+
+　　<span class="token comment" spellcheck="true">//静态final变量未被初始化，编译时就会报错</span>
+　　<span class="token comment" spellcheck="true">//public static final int STATIC_J;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>我们运行上面的代码之后出了可以发现final变量（常量和静态final变量（静态常量被初始化时，编译会报错。<br>用final修饰的变量（常量比非final的变量（普通变量拥更高的效率，因此我们在际编程中应该尽可能多的用常量来代替普通变量。</p>
+<p><strong>定义方法</strong></p>
+<p>当final用来定义一个方法时，它表示这个方法不可以被子类重写，但是并不影响它被子类继承。我们写段代码来验证一下：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ParentClass</span><span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">TestFinal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"父类--这是一个final方法"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SubClass</span> <span class="token keyword">extends</span> <span class="token class-name">ParentClass</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//子类无法重写（override父类的final方法，否则编译时会报错</span>
+    <span class="token comment" spellcheck="true">/* public void TestFinal(){
+           System.out.println("子类--重写final方法");
+    } */</span>   
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span>args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        SubClass sc <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SubClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        sc<span class="token punctuation">.</span><span class="token function">TestFinal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>    </code></pre>
+<p>这里需要特殊说明的是，具有private访问权限的方法也可以增加final修饰，但是由于子类无法继承private方法，因此也无法重写它。编译器在处理private方法时，是照final方来对待的，这样可以提高该方法被调用时的效率。不过子类仍然可以定义同父类中private方法具同样结构的方法，但是这并不会产生重写的效果，而且它们之间也不存在必然联系。</p>
+<h4 id="定义类"><a href="#定义类" class="headerlink" title="定义类"></a><strong>定义类</strong></h4><p>最后我们再来回顾一下final用于类的情况。这个大家应该也很熟悉了，因为我们最常用的String类就是final的。由于final类不允许被继承，编译器在处理时把它的所方法都当作final的，因此final类比普通类拥更高的效率。而由关键字abstract定义的抽象类含必须由继承自它的子类重载实现的抽象方法，因此无法同时用final和abstract来修饰同一个类。同样的道理，<br>final也不能用来修饰接口。 final的类的所方法都不能被重写，但这并不表示final的类的属性（变量值也是不可改变的，要想做到final类的属性值不可改变，必须给它增加final修饰，请看下面的例子：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">FinalTest</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">;</span>
+    <span class="token keyword">final</span> <span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+          FinalTest ft <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FinalTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          ft<span class="token punctuation">.</span>i <span class="token operator">=</span> <span class="token number">99</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">/*final类FinalTest的属性值 i是可以改变的，因为属性值i前面没final修饰*/</span>
+          <span class="token comment" spellcheck="true">//ft.j=49;//报错....因为j属性是final的不可以改变。</span>
+          System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ft<span class="token punctuation">.</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>        </code></pre>
+<p>运行上面的代码试试看，结果是99，而不是初始化时的10。</p>
+<h4 id="finally语句"><a href="#finally语句" class="headerlink" title="finally语句"></a><strong>finally语句</strong></h4><p>接下来我们一起回顾一下finally的用法。finally只能用在try/catch语句中并且附带着一个语句块，表示这段语句最终总是被执行。请看下面的代码：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">FinallyTest</span><span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">try</span><span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>NullPointerException e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"程序抛出了异常"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">finally</span><span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//这里总会被执行，不受break,return影响另如数据库连接的close()一般写在这里，可以降低程序的出错几率</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了finally语句块"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>运行结果说明了finally的作用：</strong></p>
+<p><strong>1.程序抛出了异常</strong></p>
+<p><strong>2.执行了finally语句块请大家注意，捕获程序抛出的异常之后，既不加处理，也不继续向上抛出异常，并不是良好的编程习惯，它掩盖了程序执行中发生的错误，这里只是方便演示，请不要学习。</strong><br><strong>那么，没一种情况使finally语句块得不到执行呢？</strong><br><strong>return、continue、break这个可以打乱代码顺序执行语句的规律。那我们就来试试看，这个语句是否能影响finally语句块的执行：</strong></p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">FinallyTest</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//测试return语句</span>
+    <span class="token comment" spellcheck="true">//结果显示：编译器在编译return new ReturnClass();时，</span>
+    <span class="token comment" spellcheck="true">//将它分成了两个步骤，new ReturnClass()和return，前一个创建对象的语句是在finally语句块之前被执行的，</span>
+    <span class="token comment" spellcheck="true">//而后一个return语句是在finally语句块之后执行的，也就是说finally语句块是在程序退出方法之前被执行的</span>
+    <span class="token keyword">public</span> ReturnClass <span class="token function">testReturn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ReturnClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了finally语句"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">//测试continue语句</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testContinue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"con"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span><span class="token punctuation">(</span>Exception e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了finally语句"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//测试break语句</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testBreak</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了finally语句"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        FinallyTest ft <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FinallyTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 测试return语句</span>
+        ft<span class="token punctuation">.</span><span class="token function">testReturn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 测试continue语句</span>
+        ft<span class="token punctuation">.</span><span class="token function">testContinue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 测试break语句</span>
+        ft<span class="token punctuation">.</span><span class="token function">testBreak</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ReturnClass</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token function">ReturnClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了return语句"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>上面这段代码的运行结果如下：</p>
+<pre class=" language-java"><code class="language-java">执行了<span class="token keyword">return</span>语句
+执行了<span class="token keyword">finally</span>语句
+
+<span class="token number">0</span>
+执行了<span class="token keyword">finally</span>语句
+<span class="token number">1</span>
+con
+执行了<span class="token keyword">finally</span>语句
+<span class="token number">2</span>
+执行了<span class="token keyword">finally</span>语句
+
+<span class="token number">0</span>
+执行了<span class="token keyword">finally</span>语句
+<span class="token number">1</span>
+执行了<span class="token keyword">finally</span>语句</code></pre>
+<p>很明显，return、continue和break都没能阻止finally语句块的执行。从输出的结果来看，return语句似乎在finally语句块之前执行了，事实真的如此吗？我们来想想看，return语句的作用是什么呢？是退出当前的方法，并将值或对象返回。如果 finally语句块是在return语句之后执行的，那么return语句被执行后就已经退出当前方法了，finally语句块又如何能被执行呢？因此，正确的执行顺序应该是这样的：编译器在编译return new ReturnClass();时，将它分成了两个步骤，new ReturnClass()和return，前一个创建对象的语句是在finally语句块之前被执行的，而后一个return语句是在finally语句块之后执行的，也就是说finally语句块是在程序退出方法之前被执行的。同样，finally语句块是在循环被跳过（continue和中断（break之前被执行的<br><strong>finalize方法</strong><br>最后，我们再来看看finalize，它是一个方法，属于java.lang.Object类，它的定义如下：protected void finalize()throws Throwable{}众所周知，finalize()方法是GC（garbagecollector运行机制的一部分,在此我们只说说finalize()方法的作用是什么呢？finalize()方法是在GC清理它所从属的对象时被调用的，如果执行它的过程中抛出了无法捕获的异常（uncaughtexception，GC将终止对改对象的清理，并且该异常会被忽略；直到下一次GC开始清理这个对象时，它的finalize()会被再次调用。请看下面的示例：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">FinallyTest</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//重写finalize()方法</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">finalize</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> Throwable<span class="token punctuation">{</span>
+         System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了finalize()方法"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">{</span>
+          FinallyTest ft <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FinallyTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          ft <span class="token operator">=</span> null<span class="token punctuation">;</span>
+          System<span class="token punctuation">.</span><span class="token function">gc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>运行结果如下：• 执行了finalize()方法<br>程序调用了java.lang.System类的gc()方法，引起GC的执行，GC在清理ft对象时调用了它的finalize()方法，因此才了上面的输出结果。调用System.gc()等同于调用下面这行代码：Runtime.getRuntime().gc();调用它们的作用只是建议垃圾收集器（GC启动，清理无用的对象释放内存空间，但是GC的启动并不是一定的，这由JAVA虚拟机来决定。直到 JAVA虚拟机停止运行，些对象的finalize()可能都没被运行过，那么怎样保证所对象的这个方法在JAVA虚拟机停止运行之前一定被调用呢？答案是我们可以调用System类的另一个方法：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">FunFinalizersOnExit</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> value<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//othercode</span>
+<span class="token punctuation">}</span>  </code></pre>
+<p>给这个方法传入true就可以保证对象的finalize()方法在JAVA虚拟机停止运行前一定被运行了，不过遗憾的是这个方法是不安全的，它会导致有用的对象finalize()被误调用，因此已不被赞成使用了。由于finalize()属于Object类，因此所类都这个方法，Object的任意子类都可以重写（override该方法，在其中释放系统资源或者做其它的清理工作，如关闭输入输出流。通过以上知识的回顾，我想大家对于final、finally、finalize的用法区别已经很清楚了。</p>
+<p>转载自： <a href="https://www.cnblogs.com/smart-hwt/p/8257330.html" target="_blank" rel="noopener">https://www.cnblogs.com/smart-hwt/p/8257330.html</a> </p>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>林沐&憨憨</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E4%B8%ADfinal%E3%80%81finally%E3%80%81finalize%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E7%94%A8%E6%B3%95/" title="Java中final、finally、finalize的区别与用法">https://github.com/zjmjava/zjmjava.github.io.git/2020/06/03/Java%E4%B8%ADfinal%E3%80%81finally%E3%80%81finalize%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E7%94%A8%E6%B3%95/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 许可协议。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2020/06/03/JDBC%E7%BB%93%E6%9E%9C%E9%9B%86%E6%BB%9A%E5%8A%A8%E5%92%8C%E5%85%83%E6%95%B0%E6%8D%AE/" rel="prev" title="JDBC结果集滚动和元数据"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-left-s-line"></use></svg><span class="post-nav-text">JDBC结果集滚动和元数据</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2020/06/03/Java%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7/" rel="next" title="Java四大特性"><span class="post-nav-text">Java四大特性</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div id="comment"><div class="comment-tooltip text-center"><span>点击按钮跳转 GitHub Issues 评论。</span><br><span>若没有本文 Issue，您可以使用 Comment 模版新建。</span><br><a class="hty-button hty-button--raised" id="github-issues" href="https://github.com/zjmjava/zjmjava.github.io/issues?q=is:issue+Java中final、finally、finalize的区别与用法">GitHub Issues</a></div><div class="comment-container" id="valine-container"></div><script src="https://cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script><script>function initValine() {
+  setTimeout(() => {
+    new Valine({
+      el: "#valine-container",
+      appId: 'x28P8y6m6ntuC1zl6oTMLC8j-gzGzoHsz',
+      appKey: 'TLDnd7nD2JaMXCmGyTM4NeRX',
+      placeholder: '欢迎大佬们留言交流哦，孩子菜鸡，不对的地方多多指教（么得邮件提醒，评论随缘）',
+      path: window.location.pathname,
+      avatar: 'robohash',
+      meta: ["nick","mail","link"],
+      pageSize: 10,
+      lang: 'zh-cn',
+      visitor: false,
+      highlight: true,
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: null,
+      enableQQ: true,
+      requiredFields: [],
+    });
+  }, 1000);
+}
+initValine();</script></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2020 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 林沐&amp;憨憨</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v4.2.1</span><span class="footer-separator">|</span><span>主题 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v0.7.2</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  window.setTimeout(blog_live_time, 1000);
+  const start = new Date('2020-05-24T13:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div><div id="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv" title="总访客量"><span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-user-line"></use></svg></span><span id="busuanzi_value_site_uv"></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv" title="总访问量"><span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-eye-line"></use></svg></span><span id="busuanzi_value_site_pv"></span></span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><div class="aplayer no-destroy" id="aplayer" data-id="308168565" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay data-theme="#0078E7" data-loop="all" data-order="random" data-preload="auto" data-volume="0.7" data-mutex data-lrctype="0" data-listfolded data-listmaxheight="340px" data-storagename="metingjs"></div></div><script defer src="/js/utils.js"></script><script defer src="/js/hexo-theme-yun.js"></script></body></html>
